@@ -12,13 +12,13 @@ customers = {
                         "name": "Lucy",
                         "address": "34 ocean road, sutherland", 
                         "credit": 6.00,
-                        "favourite": []
+                        
                          },
             "466660096": {
                         "name": "John",
                         "address": "31 holland cr, casula", 
                         "credit": 7.00,
-                        "favourite": []
+                        
                          }
             }
 
@@ -36,12 +36,12 @@ toppings = {
             "olive": 1.00, 
             "spinach": 1.00, 
             "pepperoni": 3.00,
-             "mushroom": 2.00, 
-             "pineapple": 1.50
+            "mushroom": 2.00, 
+            "pineapple": 1.50
             }
 
 customers_order = {}
-daily_report = []
+orders = {}
 
 
 
@@ -55,24 +55,28 @@ daily_report = []
 def create_pizza(customer_mobile):
     pizza = {}
     pizza["price"] = 0
-    pizza["order"] = {}
+    
     dough_option = input("Choose dough (thin or thick): ")
-    pizza["order"]["dough"] = dough_option.lower()
+    pizza["dough"] = dough_option.lower()
     pizza["price"] += dough[dough_option.lower()]
     sauce_option = input("Choose sauce (tomato or barbeque): ")
-    pizza["order"]["sauce"] = sauce_option.lower()
+    pizza["sauce"] = sauce_option.lower()
     pizza["price"] += sauce[sauce_option.lower()]
-    pizza["order"]["toppings"] = []
-    while len(pizza["order"]["toppings"]) < 3:
+    pizza["toppings"] = []
+    while len(pizza["toppings"]) < 3:
         toppings_option = input("Choose  toppings (olive, spinach, pineapple, mushroom, pepperoni): ")
         if toppings_option.lower() in toppings.keys():
-            pizza["order"]["toppings"].append(toppings_option.lower())
+            pizza["toppings"].append(toppings_option.lower())
             pizza["price"] += toppings[toppings_option.lower()]
         else:
             print("No such ingredients.")
     customers_order[customer_mobile].append(pizza)
-    daily_report.append((pizza, pizza['price']))   
-    print(f"you ordered {pizza['order']['dough']} crust pizza with {pizza['order']['sauce']} sauce and with {pizza['order']['toppings'][0]}, {pizza['order']['toppings'][1]}, {pizza['order']['toppings'][2]}. price: ${pizza['price']}")
+    try:
+        orders[f"{pizza['dough']}-{pizza['sauce']}-{pizza['toppings'][0]}-{pizza['toppings'][1]}-{pizza['toppings'][2]}"] += 1
+    except:
+        orders[f"{pizza['dough']}-{pizza['sauce']}-{pizza['toppings'][0]}-{pizza['toppings'][1]}-{pizza['toppings'][2]}"] = 1
+
+    print(f"you ordered {pizza['dough']} crust pizza with {pizza['sauce']} sauce and with {pizza['toppings'][0]}, {pizza['toppings'][1]}, {pizza['toppings'][2]}. price: ${pizza['price']}")
     
 def delievery_time():
     order_time = datetime.datetime.now()
@@ -89,7 +93,7 @@ def order_placed(customer_mobile):
     for item in customers_order[customer_mobile]:
         total += item["price"]
         
-        print(f"{item['order']['dough']} crust pizza with {item['order']['sauce']} sauce and {item['order']['toppings'][0]}, {item['order']['toppings'][1]}, {item['order']['toppings'][2]}. price: ${item['price']}")
+        print(f"{item['dough']} crust pizza with {item['sauce']} sauce and {item['toppings'][0]}, {item['toppings'][1]}, {item['toppings'][2]}. price: ${item['price']}")
     print(f"Sub-Total: ${total} (Available Credit ${credit})")
     print(f"Total: ${total - credit}")
     print(f"Your order will be delievered at {delievery_time()} to address: {customers[customer_mobile]['address']}.")
@@ -116,7 +120,7 @@ def customer_choice(customer_mobile):
             order_placed(customer_mobile)
             break
         if choice == "x":
-            print("Order is cancelled.")
+            
             break
              
 
@@ -129,12 +133,12 @@ def serve_customer(customer_mobile):
         print("No such customer.")
 
 def show_report():
-    total_income = 0.00
-    s = set()
-    for i in daily_report:
-        print(i[0]['order'])
-        total_income += i[1]
-    print(f"Today's Income: ${total_income}")
+    sorted_orders = {k: v for k, v in sorted(orders.items(), key=lambda item: item[1])}
+    print(sorted_orders)
+    
+    
+           
+        
 
 def add_customer(customer_mobile):
         if customer_mobile in customers.keys():
@@ -168,7 +172,7 @@ while True:
     if user_input == "r":
         show_report()
         
-    if customer_choice == "x":
+    if user_input == "x":
         print("Bye!")
         break
         
