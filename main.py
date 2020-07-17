@@ -1,3 +1,4 @@
+#!/usr/sbin/python
 import datetime
 import random
 
@@ -42,24 +43,14 @@ toppings = {
 customers_order = {}
 daily_report = []
 
-def add_customer(customer_mobile):
-        if customer_mobile in customers.keys():
-            print(f" old customer:\n {customers[customer_mobile]}")
-        else:
-            print("you are a new customer!!!")
-            name = input("Enter your name: ")
-            address = input("Your address: ")
-            customers[customer_mobile] = {}
-            customers[customer_mobile]["name"] = name
-            customers[customer_mobile]["address"] = address
-            customers[customer_mobile]["credit"] = 0
 
-def view_customer(customer_mobile):
-    if customer_mobile != "":
-        print(f"{customer_mobile}: {customers[customer_mobile]}")
-    else:
-        for key in customers.keys():
-            print(f"{key}: {customers[key]}")
+
+# def view_customer(customer_mobile):
+#     if customer_mobile != "":
+#         print(f"{customer_mobile}: {customers[customer_mobile]}")
+#     else:
+#         for key in customers.keys():
+#             print(f"{key}: {customers[key]}")
 
 def create_pizza(customer_mobile):
     pizza = {}
@@ -145,21 +136,32 @@ def show_report():
         total_income += i[1]
     print(f"Today's Income: ${total_income}")
 
+def add_customer(customer_mobile):
+        if customer_mobile in customers.keys():
+            print(f" old customer:\n {customers[customer_mobile]}")
+            serve_customer(customer_mobile)
+        else:
+            print("you are a new customer!!!")
+            name = input("Enter your name: ")
+            address = input("Your address: ")
+            customers[customer_mobile] = {}
+            customers[customer_mobile]["name"] = name
+            customers[customer_mobile]["address"] = address
+            customers[customer_mobile]["credit"] = 0
+
 
 while True:             
-    user_input = input("Choice (a/v/s/r/x): ")
-    if user_input not in ["a", "v", "s", "r", "x"]:
+    user_input = input("Choice (a/s/r/x): ")
+    if user_input not in ["a", "s", "r", "x"]:
         print("a = add customer")
-        print("v = view customer")
+        
         print("s = serve customer")
         print("r = show report")
         print("x = exit\n")
     if user_input == "a":
         customer_mobile = input("Please enter a mobile number: ")
         add_customer(customer_mobile)
-    if user_input == "v":
-        customer_mobile = input("Please enter a mobile number: ")
-        view_customer(customer_mobile)
+    
     if user_input == "s":
         customer_mobile = input("Please enter a mobile number: ")
         serve_customer(customer_mobile)
