@@ -55,11 +55,16 @@ orders = {}
 def create_pizza(customer_mobile):
     pizza = {}
     pizza["price"] = 0
-    
-    dough_option = input("Choose dough (thin or thick): ")
+    while True:
+        dough_option = input("Choose dough (thin or thick): ")
+        if dough_option.lower() in ("thin", "thick"):
+            break
     pizza["dough"] = dough_option.lower()
     pizza["price"] += dough[dough_option.lower()]
-    sauce_option = input("Choose sauce (tomato or barbeque): ")
+    while True:
+        sauce_option = input("Choose sauce (tomato or barbeque): ")
+        if sauce_option.lower() in ("tomato", "barbeque"):
+            break
     pizza["sauce"] = sauce_option.lower()
     pizza["price"] += sauce[sauce_option.lower()]
     pizza["toppings"] = []
@@ -95,9 +100,10 @@ def order_placed(customer_mobile):
         
         print(f"{item['dough']} crust pizza with {item['sauce']} sauce and {item['toppings'][0]}, {item['toppings'][1]}, {item['toppings'][2]}. price: ${item['price']}")
     print(f"Sub-Total: ${total} (Available Credit ${credit})")
-    print(f"Total: ${total - credit}")
+    print(f"Total: ${(total - credit):.2f}")
     print(f"Your order will be delievered at {delievery_time()} to address: {customers[customer_mobile]['address']}.")
-    customers[customer_mobile]['credit'] += 0.1 * total
+    customers[customer_mobile]['credit'] = 0.1 * total
+    print(f"You earned ${customers[customer_mobile]['credit']:.2f} credit!")
     
     
 
@@ -120,7 +126,7 @@ def customer_choice(customer_mobile):
             order_placed(customer_mobile)
             break
         if choice == "x":
-            
+            print("Order cancelled.")
             break
              
 
@@ -133,7 +139,7 @@ def serve_customer(customer_mobile):
         print("No such customer.")
 
 def show_report():
-    sorted_orders = {k: v for k, v in sorted(orders.items(), key=lambda item: item[1])}
+    sorted_orders = {k: v for k, v in sorted(orders.items(), key=lambda item: item[1], reverse = True)}
     print(sorted_orders)
     
     
