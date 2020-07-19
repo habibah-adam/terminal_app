@@ -1,9 +1,0 @@
-   There is a list of customers and new customers is addes to this list ,when they make an order first time.
-   The customer's phone number is used to identify to differenciate new and old customers.
-   The order consists of one or more pizzas.
-   Each pizza can have ingredients from a given list, according to customer's request.
-   There are different categories of ingredients and also min and max limit for choise of ingredients.
-   For each customer, there is a order history and customer can choose thier most favourite pizza.
-   The total prize of the order is calculated and shown
-   Finally, sales are recorded.
-   
