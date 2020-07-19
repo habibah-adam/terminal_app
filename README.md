@@ -8,7 +8,7 @@ This application records a list of customers and allows for new customers to be 
 
 #### Code Execution:
 
-![](./docs/code_execute1.png)
+![Execution1](./docs/code_execute1.png)
 
 ![Execution2](./docs/code_execute2.png)
 
